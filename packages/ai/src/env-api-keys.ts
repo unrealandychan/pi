@@ -37,7 +37,7 @@ export const ANTHROPIC_WORKSPACE_ID_ENV = "ANTHROPIC_WORKSPACE_ID";
 
 let cachedVertexAdcCredentialsExists: boolean | null = null;
 
-function hasVertexAdcCredentials(env?: ProviderEnv): boolean {
+export function hasVertexAdcCredentials(env?: ProviderEnv): boolean {
 	const explicitCredentialsPath = env?.GOOGLE_APPLICATION_CREDENTIALS;
 	if (explicitCredentialsPath) {
 		return _existsSync ? _existsSync(explicitCredentialsPath) : false;

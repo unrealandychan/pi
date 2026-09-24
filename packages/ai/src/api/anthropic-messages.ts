@@ -930,13 +930,15 @@ export const streamSimple: StreamFunction<"anthropic-messages", SimpleStreamOpti
 	context: TranscriptContext,
 	options?: SimpleStreamOptions,
 ): AssistantMessageEventStream => {
-	if (!getAnthropicFederation(model, options?.apiKey, options?.headers, options?.env)) {
+	const client = (options as AnthropicOptions | undefined)?.client;
+	if (!client && !getAnthropicFederation(model, options?.apiKey, options?.headers, options?.env)) {
 		assertRequestAuth(model.provider, options?.apiKey, options?.headers);
 	}
 
 	const base = {
 		...buildBaseOptions(model, context, options, options?.apiKey),
 		toolChoice: options?.toolChoice,
+		client,
 	} satisfies AnthropicOptions;
 	if (!options?.reasoning) {
 		return stream(model, context, {
